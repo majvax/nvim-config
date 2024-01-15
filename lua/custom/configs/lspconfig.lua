@@ -1,25 +1,13 @@
-local base = require("plugins.configs.lspconfig")
-local on_attach = base.on_attach
-local capabilities = base.capabilities
+local configs = require("plugins.configs.lspconfig")
+local on_attach = configs.on_attach
+local capabilities = configs.capabilities
 
-local lspconfig = require("lspconfig")
-vim.notify = require("noice").notify
-vim.lsp.handlers["textDocument/hover"] = require("noice").hover
-vim.lsp.handlers["textDocument/signatureHelp"] = require("noice").signature
+local lspconfig = require "lspconfig"
+local servers = { "clangd", "pyright" }
 
-
-lspconfig.clangd.setup {
-  on_attach = function(client, bufnr)
-    client.server_capabilities.signatureHelpProvider = false
-    on_attach(client, bufnr)
-  end,
-  capabilities = capabilities
-}
-
-lspconfig.pyright.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = {"python"},
-})
-
-
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
