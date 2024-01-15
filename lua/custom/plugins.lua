@@ -1,5 +1,13 @@
 return {
   {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function ()
+      require("copilot").setup(require("custom.configs.copilot"))
+    end
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -104,6 +112,7 @@ return {
         "ruff",
         "mypy",
         "black",
+        "intelephense",
         "debugpy",
       }
     }
